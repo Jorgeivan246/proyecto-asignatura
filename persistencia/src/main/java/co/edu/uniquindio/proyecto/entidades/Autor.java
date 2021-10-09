@@ -1,57 +1,44 @@
 package co.edu.uniquindio.proyecto.entidades;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Autor implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer codigo;
 
+
+    @Column(length = 100,nullable = false)
     private String nombre;
 
+    @Column(nullable = false)
     private Integer anioNacimiento;
 
     public Autor(){
         super();
     }
 
-    public Autor(String nombre, Integer anioNacimiento) {
+    public Autor(@NonNull String nombre, Integer anioNacimiento) {
         this.nombre = nombre;
 
         this.anioNacimiento = anioNacimiento;
     }
 
-    public Integer getCodigo() {
-        return codigo;
-    }
 
-    public void setCodigo(Integer codigo) {
-        this.codigo = codigo;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Integer getAnioNacimiento() {
-        return anioNacimiento;
-    }
-
-    public void setAnioNacimiento(Integer anioNacimiento) {
-        this.anioNacimiento = anioNacimiento;
-    }
 
     @Override
     public boolean equals(Object o) {

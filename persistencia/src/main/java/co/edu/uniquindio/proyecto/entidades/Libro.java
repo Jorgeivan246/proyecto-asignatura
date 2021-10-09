@@ -1,6 +1,8 @@
 package co.edu.uniquindio.proyecto.entidades;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -17,6 +19,10 @@ public class Libro implements Serializable {
     private Integer unidades;
 
     private Integer anio;
+
+
+    @Enumerated(EnumType.STRING)
+    private GeneroLibro generoLibro;
 
     public Libro()
     {

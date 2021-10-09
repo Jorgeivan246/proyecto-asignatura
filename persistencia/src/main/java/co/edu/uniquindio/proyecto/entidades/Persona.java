@@ -1,5 +1,6 @@
 package co.edu.uniquindio.proyecto.entidades;
 import javax.persistence.*;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -14,10 +15,19 @@ public class Persona  {
     private String email;
 
     @ElementCollection
-    private Map<String,String> numTelefonos;
+    private List<String> numTelefonos;
 
     @Enumerated(EnumType.STRING)
     private GeneroPersona generoPersona;
+
+    public List<String> getNumTelefonos() {
+        return numTelefonos;
+    }
+
+    public void setNumTelefonos(List<String> numTelefonos) {
+        this.numTelefonos = numTelefonos;
+    }
+
 
     public Persona()
     {
@@ -55,13 +65,7 @@ public class Persona  {
         this.email = email;
     }
 
-    public Map<String,String> getNumTelefonos() {
-        return numTelefonos;
-    }
 
-    public void setNumTelefonos( Map<String,String> numTelefonos) {
-        this.numTelefonos = numTelefonos;
-    }
 
     public GeneroPersona getGenero() {
         return generoPersona;
