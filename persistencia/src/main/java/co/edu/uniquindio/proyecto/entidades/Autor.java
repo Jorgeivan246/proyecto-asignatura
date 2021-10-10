@@ -1,55 +1,34 @@
 package co.edu.uniquindio.proyecto.entidades;
 
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Autor implements Serializable {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    private Integer codigo;
+@NoArgsConstructor
+@ToString
+public class Autor extends Persona implements Serializable {
 
 
-    @Column(length = 100,nullable = false)
-    private String nombre;
 
+
+    @Positive
+    @Max(9999)
     @Column(nullable = false)
     private Integer anioNacimiento;
 
-    public Autor(){
-        super();
-    }
 
-    public Autor(@NonNull String nombre, Integer anioNacimiento) {
-        this.nombre = nombre;
-
-        this.anioNacimiento = anioNacimiento;
-    }
+    @ManyToMany(mappedBy = "autores")
+    private List<Libro> libros;
 
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Autor autor = (Autor) o;
-        return Objects.equals(codigo, autor.codigo);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(codigo);
-    }
 }

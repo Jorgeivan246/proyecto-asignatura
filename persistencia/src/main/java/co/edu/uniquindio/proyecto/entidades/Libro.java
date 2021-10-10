@@ -1,28 +1,59 @@
 package co.edu.uniquindio.proyecto.entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 
 
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Libro implements Serializable {
     @Id
+    @Column(length = 50)
     public String isbn;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Libro libro = (Libro) o;
+        return Objects.equals(isbn, libro.isbn);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(isbn);
+    }
+
+    @Column(nullable = false, length = 100)
     private String nombre;
 
-
+    @Positive
+    @Column(nullable = false)
     private Integer unidades;
 
+    @Positive
+    @Column(nullable = false)
     private Integer anio;
 
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private GeneroLibro generoLibro;
+
+    @ManyToMany(mappedBy = "libros")
+    private List<Prestamo> prestamos;
+
+    @ManyToMany
+    private List<Autor> autores;
 
     public Libro()
     {

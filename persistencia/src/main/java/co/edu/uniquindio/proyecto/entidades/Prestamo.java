@@ -1,21 +1,42 @@
 package co.edu.uniquindio.proyecto.entidades;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
+import javax.validation.constraints.Future;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Prestamo implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer codigo;
 
+  @Column(nullable = false,columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
   private LocalDateTime fechaPrestamo;
 
+  @Future
+  @Column(nullable = false)
   private LocalDate fechaDevolucion;
+
+  @ManyToOne
+  @JoinColumn(nullable = false)
+  private Usuario usuarioPrestamo;
+
+  @ManyToMany
+  private List<Libro> libros;
+
+
 
     public Prestamo(Integer codigo, LocalDateTime fechaPrestamo, LocalDate fechaDevolucion) {
         this.codigo = codigo;
@@ -25,30 +46,6 @@ public class Prestamo implements Serializable {
     public Prestamo()
     {
 
-    }
-
-    public Integer getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(Integer codigo) {
-        this.codigo = codigo;
-    }
-
-    public LocalDateTime getFechaPrestamo() {
-        return fechaPrestamo;
-    }
-
-    public void setFechaPrestamo(LocalDateTime fechaPrestamo) {
-        this.fechaPrestamo = fechaPrestamo;
-    }
-
-    public LocalDate getFechaDevolucion() {
-        return fechaDevolucion;
-    }
-
-    public void setFechaDevolucion(LocalDate fechaDevolucion) {
-        this.fechaDevolucion = fechaDevolucion;
     }
 
     @Override

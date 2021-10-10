@@ -1,90 +1,40 @@
 package co.edu.uniquindio.proyecto.entidades;
-import javax.persistence.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.lang.annotation.Inherited;
+import java.time.LocalDate;
+
+@Getter
+@Setter
 @Entity
-public class Persona  {
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+
+public class Persona implements Serializable {
 
     @Id
-    private String cedula;
+    @Column(length = 10)
+    @EqualsAndHashCode.Include
+    private String código;
 
+    @Column(nullable = false,length = 100)
     private String nombre;
 
-    private String email;
-
-    @ElementCollection
-    private List<String> numTelefonos;
+    @Column(nullable = false)
+    private LocalDate fechaNacimiento;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private GeneroPersona generoPersona;
 
-    public List<String> getNumTelefonos() {
-        return numTelefonos;
-    }
-
-    public void setNumTelefonos(List<String> numTelefonos) {
-        this.numTelefonos = numTelefonos;
-    }
+    private int estatura;
 
 
-    public Persona()
-    {
-        super();
-    }
-
-    public Persona(String cedula, String nombre, String email) {
-        this.cedula = cedula;
-        this.nombre = nombre;
-        this.email = email;
-
-    }
-
-    public String getCedula() {
-        return cedula;
-    }
-
-    public void setCedula(String cedula) {
-        this.cedula = cedula;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
-
-    public GeneroPersona getGenero() {
-        return generoPersona;
-    }
-
-    public void setGenero(GeneroPersona generoPersona) {
-        this.generoPersona = generoPersona;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Persona persona = (Persona) o;
-        return Objects.equals(cedula, persona.cedula);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(cedula);
-    }
 }
