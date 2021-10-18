@@ -30,11 +30,12 @@ public class UsuarioTest {
     private CiudadRepo ciudadRepo;
 
     @Test
+    @Sql("classpath:usuarios.sql")
     public void  registrarTest()
     {
-        Ciudad ciudad = new Ciudad("Armenia");
 
-        ciudadRepo.save(ciudad);
+        Ciudad ciudad = ciudadRepo.findById(1).orElse(null);
+
 
         Map<String,String> telefonos = new HashMap<>();
         telefonos.put("casa","1717171");
@@ -42,7 +43,6 @@ public class UsuarioTest {
 
 
         Usuario usuario = new Usuario("123","pepito",LocalDate.now(),GeneroPersona.MASCULINO,"pepito@email.com",telefonos,ciudad);
-
 
 
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
@@ -55,61 +55,34 @@ public class UsuarioTest {
 
 
     @Test
+    @Sql("classpath:usuarios.sql")
     public void elimiarTest()
     {
-
-        Ciudad ciudad = new Ciudad("Armenia");
-
-        ciudadRepo.save(ciudad);
-
-
-        Map<String,String> telefonos = new HashMap<>();
-        telefonos.put("casa","1717171");
-        telefonos.put("celular","9828298");
-
-        Usuario usuario = new Usuario("123","pepito",LocalDate.now(),GeneroPersona.MASCULINO,"pepito@email.com",telefonos,ciudad);
-
-        usuario.setNumTelefonos(telefonos);
-
-        usuarioRepo.save(usuario);
-
         usuarioRepo.deleteById("123");
 
-        Usuario usuarioBuscado = usuarioRepo.findById("123").orElse(null);
 
+        Usuario usuarioBuscado = usuarioRepo.findById("123").orElse(null);
 
         Assertions.assertNull(usuarioBuscado);
     }
 
 
     @Test
+    @Sql("classpath:usuarios.sql")
     public void actualizarTest()
     {
-        Ciudad ciudad = new Ciudad("Armenia");
+        Usuario guardado = usuarioRepo.findById("124").orElse(null);
 
-        ciudadRepo.save(ciudad);
+        guardado.setEmail("maria_correonuevo@email.com");
 
-
-
-        Map<String,String> telefonos = new HashMap<>();
-        telefonos.put("casa","1717171");
-        telefonos.put("celular","9828298");
+        usuarioRepo.save(guardado);
 
 
-        Usuario usuario = new Usuario("123","pepito",LocalDate.now(),GeneroPersona.MASCULINO,"pepito@email.com",telefonos,ciudad);
-        usuario.setNumTelefonos(telefonos);
 
-       Usuario guardado =  usuarioRepo.save(usuario);
+        Usuario usuarioBuscado = usuarioRepo.findById("124").orElse(null);
 
 
-       guardado.setEmail("pepe1@email.com");
-
-       usuarioRepo.save(guardado);
-
-
-       Usuario usuarioBuscado = usuarioRepo.findById("123").orElse(null);
-
-       Assertions.assertEquals("pepe1@email.com",usuarioBuscado.getEmail());
+       Assertions.assertEquals("maria_correonuevo@email.com",usuarioBuscado.getEmail());
 
 
     }
